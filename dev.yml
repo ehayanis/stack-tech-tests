@@ -1,0 +1,41 @@
+version: "3"
+
+services:
+  front:
+    image: ehayanis/stack-tech-ui
+    ports:
+      - "8081:8081"
+    depends_on:
+      - back
+
+  back:
+    image: ehayanis/stack-tech
+    ports:
+      - "9000:9000"
+    depends_on:
+      - pgdb
+    networks:
+      - mynet
+
+  pgdb:
+    image: postgres
+    ports:
+      - "8001:5432"
+    networks:
+      - mynet
+
+  selenium:
+    image: selenium/standalone-chrome
+    ports:
+      - "4444:4444"
+    environment:
+        # Required to avoid container startup hanging sometimes in
+        # some environments
+        JAVA_OPTS: -Djava.security.egd=file:/dev/./urandom
+    networks:
+      - mynet
+
+# Add Network to be able to establish connection between bask and DB
+networks:
+    mynet:
+      driver: bridge
