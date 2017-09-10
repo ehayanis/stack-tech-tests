@@ -34,6 +34,8 @@ services:
         JAVA_OPTS: -Djava.security.egd=file:/dev/./urandom
     networks:
       - mynet
+    depends_on:
+      - postgres
 
 # Add Network to be able to establish connection between bask and DB
 networks:
